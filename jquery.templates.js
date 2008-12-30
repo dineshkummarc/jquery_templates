@@ -67,7 +67,13 @@ $.templates = {};
   $.loadTemplates = function() {
     $.templates = $.templates || {};
     $("script[type=text/x-jquery-template]").each(function() {
-      $.templates[this.title] = $.compileTemplate(this.innerHTML, "<%", "%>");
+      if(src = this.src) {
+        template = "";
+        $.get(src, function(data){ template = data });
+      } else {
+        template = this.innerHTML
+      }
+      $.templates[this.title] = $.compileTemplate(template, "<%", "%>");
     });
   }
 
